@@ -17,11 +17,14 @@ class Conta(SQLModel,table =True):
     status: Status = Field(default=Status.ATIVO)
 
 
-sqlite_file_name = 'database.db'
+sqlite_file_name = "database.db"  
+sqlite_url = f"sqlite:///{sqlite_file_name}"  
 
-sqlite_url = f"sqlite:///{sqlite_file_name}"
+engine = create_engine(sqlite_url, echo=False)  
 
-engine = create_engine(sqlite_url, echo=True)
+def create_db_and_tables():  
+    SQLModel.metadata.create_all(engine)  
 
-if __name__ == " __main__":
-    SQLModel.metadata.create_all(engine)
+
+if __name__ == "__main__":  
+    create_db_and_tables()  
